@@ -1,0 +1,51 @@
+version: '3'
+services:
+  orders:
+    build:
+      context: .
+      dockerfile: ./apps/orders/Dockerfile
+      target: development
+    command: npm run start:dev orders
+    env_file:
+      - ./apps/orders/.env
+    depends_on:
+      - mongodb
+      - rabbitmq
+      - billing
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - '3000:3000'
+
+  billing:
+    build:
+      context: .
+      dockerfile: ./apps/billing/Dockerfile
+      target: development
+    command: npm run start:dev billing
+    env_file:
+      - ./apps/billing/.env
+    depends_on:
+      - rabbitmq
+      - mongodb
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - '5672:5672'
+      - '15672:15672' #UI
+    volumes:
+      - ./dockervolume:/data
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ./dockervolume:/data/db
