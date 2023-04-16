@@ -1,37 +1,56 @@
 version: '3'
 services:
-  orders:
-    build:
-      context: .
-      dockerfile: ./apps/orders/Dockerfile
-      target: development
-    command: npm run start:dev orders
-    env_file:
-      - ./apps/orders/.env
-    depends_on:
-      - mongodb
-      - rabbitmq
-      - billing
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    ports:
-      - '3000:3000'
+  # orders:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/orders/Dockerfile
+  #     target: development
+  #   command: npm run start:dev orders
+  #   env_file:
+  #     - ./apps/orders/.env
+  #   depends_on:
+  #     - mongodb
+  #     - rabbitmq
+  #     - billing
+  #     - auth
+  #   volumes:
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   ports:
+  #     - '3000:3000'
 
-  billing:
-    build:
-      context: .
-      dockerfile: ./apps/billing/Dockerfile
-      target: development
-    command: npm run start:dev billing
-    env_file:
-      - ./apps/billing/.env
-    depends_on:
-      - rabbitmq
-      - mongodb
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+  # billing:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/billing/Dockerfile
+  #     target: development
+  #   command: npm run start:dev billing
+  #   env_file:
+  #     - ./apps/billing/.env
+  #   depends_on:
+  #     - rabbitmq
+  #     - mongodb
+  #     - auth
+  #   volumes:
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules
+
+  # auth:
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/auth/Dockerfile
+  #     target: development
+  #   command: npm run start:dev auth
+  #   env_file:
+  #     - ./apps/auth/.env
+  #   depends_on:
+  #     - mongodb
+  #     - rabbitmq
+  #   volumes:
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   ports:
+  #     - '3001:3001'
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -45,7 +64,5 @@ services:
     image: mongo:latest
     ports:
       - 27017:27017
-    depends_on:
-      - rabbitmq
     volumes:
       - ./dockervolume:/data/db

@@ -1,4 +1,4 @@
-import { DataBaseModule, RmqModule } from '@app/common';
+import { AuthModule, DataBaseModule, RmqModule } from '@app/common';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -22,6 +22,7 @@ import { Order, OrderSchema } from './schemas/order.schema';
     DataBaseModule,
     MongooseModule.forFeature([{ name: Order.name, schema: OrderSchema }]),
     RmqModule.register({ name: BILLING }),
+    AuthModule,
   ],
   controllers: [OrdersController],
   providers: [OrdersService, OrdersRepository],
