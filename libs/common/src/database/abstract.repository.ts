@@ -1,5 +1,6 @@
 import { Logger, NotFoundException } from '@nestjs/common';
 import {
+  ClientSession,
   Connection,
   FilterQuery,
   Model,
@@ -76,9 +77,17 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     return await this.model.find(filterQuery);
   }
 
-  async startTransaction() {
-    const session = await this.connection.startSession();
-    session.startTransaction();
-    return session;
+  async startTransaction(): Promise<ClientSession> {
+    const trxn = await this.connection.startSession();
+    trxn.startTransaction();
+    return trxn;
+  }
+
+  async commitTransaction(session: ClientSession) {
+    return await session.commitTransaction();
+  }
+
+  async abortTransaction(session: ClientSession) {
+    return await session.abortTransaction();
   }
 }
