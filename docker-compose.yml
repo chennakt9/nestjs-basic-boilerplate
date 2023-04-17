@@ -1,5 +1,6 @@
 version: '3'
 services:
+  #################### Each micro-service can be run using docker, uncomment below code for that #####################
   # orders:
   #   build:
   #     context: .
@@ -53,7 +54,7 @@ services:
   #     - '3001:3001'
 
   rabbitmq:
-    image: rabbitmq:3-management
+    image: rabbitmq:management-alpine
     ports:
       - '5672:5672'
       - '15672:15672' #UI
@@ -61,7 +62,7 @@ services:
       - ./dockervolume:/data
 
   mongodb:
-    image: mongo:latest
+    image: mongo:6.0.5
     ports:
       - 27018:27017
     volumes:
