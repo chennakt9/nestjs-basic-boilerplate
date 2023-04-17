@@ -11,14 +11,20 @@ export class OrdersService {
     private readonly ordersRepository: OrdersRepository,
     @Inject(BILLING) private readonly billingClient: ClientProxy,
   ) {}
+
   async createOrder(request: CreateOrderRequest, authentication: string) {
     const trxn = await this.ordersRepository.startTransaction();
     try {
-      const order = this.ordersRepository.create(request);
+      const order = this.ordersRepository.create(request); // pass { session: trxn } as 2nd param
+      /*
+        Currently transactions will not work as we are not using replica set
+        To make transactions work, add a replica set in docker-compose.yml
+      */
       await lastValueFrom(
         this.billingClient.emit('order_created', {
           request,
           Authentication: authentication,
+          trxn,
         }),
       );
 
@@ -27,6 +33,7 @@ export class OrdersService {
       return order;
     } catch (error) {
       this.ordersRepository.abortTransaction(trxn);
+      throw error;
     }
   }
 

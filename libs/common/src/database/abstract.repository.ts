@@ -77,6 +77,10 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
     return await this.model.find(filterQuery);
   }
 
+  /*
+    Currently transactions will not work as we are not using replica set
+    To make transactions work, add a replica set in docker-compose.yml
+  */
   async startTransaction(): Promise<ClientSession> {
     const trxn = await this.connection.startSession();
     trxn.startTransaction();
