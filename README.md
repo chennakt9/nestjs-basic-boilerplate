@@ -45,23 +45,7 @@ terminal-3- $ npm run start:dev orders
 
 #### Testing in postman
 
-- POST / http://localhost:3001/auth/register
-  {
-  "email": "test1@example.com",
-  "password": "1234"
-  }
-- POST / http://localhost:3001/auth/login
-  {
-  "email": "test1@example.com",
-  "password": "1234"
-  }
-- GET / http://localhost:3000/order
-- POST / http://localhost:3000/order
-  {
-  "name": "test 11",
-  "price": 3011,
-  "phoneNumber": "+919876543210"
-  }
+[Postman collection](https://github.com/chennakt9/nestjs-basic-boilerplate/tree/09f4906235a704a9322168bf5bb8d303f7d36829/demo)
 
 #### Database
 
@@ -71,7 +55,7 @@ terminal-3- $ npm run start:dev orders
 
 ## Demo
 
-![Demo](https://github.com/chennakt9/nested-commenting-system/blob/master/demo.gif)
+![Demo](https://github.com/chennakt9/nestjs-basic-boilerplate/blob/master/demo/nestjs-microservices-demo.gif)
 
 ## Authors
 
