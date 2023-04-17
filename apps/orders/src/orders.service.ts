@@ -24,7 +24,6 @@ export class OrdersService {
         this.billingClient.emit('order_created', {
           request,
           Authentication: authentication,
-          trxn,
         }),
       );
 
